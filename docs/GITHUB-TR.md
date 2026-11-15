@@ -1,63 +1,65 @@
 # MGET GitHub Kullanımı (TR)
 
-**Sürüm 0.1.x:** GitHub bağlantıları için kaynak ZIP ve numaralı release dosyası seçimi.
+MGET, herkese açık GitHub sayfalarını HTTPS üzerinden **normal bir istemci gibi açar**. GitHub REST API'sini veya API anahtarını kullanmaz.
 
-## Depo bağlantısı → kaynak kodu ZIP
+## Kaynak kod indir
 
 ```powershell
 mget pull https://github.com/OWNER/REPO --loc="C:\Projeler"
 ```
 
-`releases` olmayan normal depo bağlantısında GitHub API üzerinden **varsayılan dal** bulunur; kaynak kod doğrudan hedef klasöre ZIP olarak indirilir. ZIP kendiliğinden çalıştırılmaz veya açılmaz.
+Depo sayfasından varsayılan dal belirlenir. Dalın kaynak kodu ZIP olarak seçilen klasöre kaydedilir. Kendiliğinden çalıştırılmaz veya açılmaz.
 
-## Releases bağlantısı → numaralı dosya listesi
+## Releases içindeki dosyalardan seç
 
 ```powershell
-mget install https://github.com/OWNER/REPO/releases --loc="C:\İndirilenler"
+mget pull https://github.com/OWNER/REPO/releases --loc="C:\İndirilenler"
 ```
 
-Örnek ekran (dosya adları temsilidir):
+MGET son yayınlanan release'in web sayfasını açıp indirilebilir ekleri numaralı listeler. Örnek:
 
 ```text
-GitHub release: OWNER/REPO (v1.0)
- 1  DX.exe
- 2  program.exe
- 3  assets.zip
+[1] DX.exe
+[2] program.exe
+[3] assets.zip
+[4] helper.exe
+[5] readme.txt
+[6] pack.zip
+[7] config.json
+[8] portable.exe
 
-Which files? Example: 1-2-4
-Selection:
+Hangileri insin?
+Seçim: 2-4-6-8
 ```
 
-`1` yazarsan yalnız **DX.exe**, `1-2` yazarsan **DX.exe ve program.exe**, `3-1-2` yazarsan **üçü** seçilir. Tire işareti **aralık değil, çoklu seçim ayırıcıdır**. `0` veya `0-0-0` özel bir komut değildir; geçersiz seçim hatası verir. **Her dosyayı** seçmek istersen açıkça `--all` kullan.
+**`2-4-6-8`** yalnız **2, 4, 6 ve 8** numaralı dosyaları indirir. İstediğin kadar numara yazabilirsin. `1-3`, 1 ve 3'ü seçer; **bir aralık değildir**. `0` özel komut değildir ve geçersiz sayılır. Tekrarlanan numaralar yalnız bir kez indirilir. **İndirme sırası**, numaraları yazdığın sıradır; listede bulunmayan numara kabul edilmez.
 
-Seçimi tek komutta belirt:
+Seçimi komutla belirlemek için:
 
 ```powershell
-mget pull https://github.com/OWNER/REPO/releases --select=1-2 --loc="C:\İndirilenler"
+mget pull https://github.com/OWNER/REPO/releases --select=2-4-6-8 --loc="C:\İndirilenler"
 mget pull https://github.com/OWNER/REPO/releases --all --loc="C:\İndirilenler"
+mget pull https://github.com/OWNER/REPO/releases/tag/v1.0.0 --select=1-3 --loc="C:\İndirilenler"
 ```
 
-Belirli sürüm:
+`/releases/latest` bağlantısı da desteklenir. `mget install` ve `mget pull` GitHub depo veya release bağlantısında **yalnız indirir**; EXE otomatik çalıştırılmaz.
+
+## Önizleme
 
 ```powershell
-mget pull https://github.com/OWNER/REPO/releases/tag/v1.0.0 --select=1 --loc="C:\İndirilenler"
+mget pull https://github.com/OWNER/REPO/releases --select=2-4 --dry-run --loc="C:\Test"
 ```
 
-`/releases` ve `/releases/latest` bağlantıları **en son kararlı yayımlanmış release** öğesini kullanır. Varsa yayın ekleri listelenir; release'te ek yoksa bilgi verir.
+`--dry-run` indirme yapmadan seçilen dosyaları gösterir.
 
-**Not:** GitHub release dosyaları bu aşamada yalnızca indirilir; EXE'ler otomatik başlatılmaz. Bu nedenle `mget pull` ve `mget install` GitHub depo/release bağlantılarında aynı indirme seçimini sunar.
+## Önbellek ve sınırlamalar
 
-## Cache yok
-
-- **Kalıcı cache klasörü oluşturulmaz.** GitHub API yanıtları RAM'de okunur.
-- Her dosya, `--loc` hedef klasörüne **doğrudan** indirilir; `--loc` yoksa Windows klasör seçim penceresi açılır.
-- İndirme sürerken hedef klasörde geçici `.part` dosyası bulunabilir; başarılı indirme sonunda asıl dosya adına dönüştürülür.
-- Kaynak kod veya release dosyaları `%LOCALAPPDATA%\MGET\cache` içine kaydedilmez.
-- Mevcut dosya üzerine yazma öncesi onay istenir.
-- API kullanımı herkese açık depolar içindir; özel depolara giriş ve GitHub token desteği bu sürümde yoktur.
-
-## Sınırlar
-
-GitHub API'nin hız sınırları, ağ hataları, büyük boyut sınırları ve release sahibi tarafından paylaşılmış dosyaların güvenilirliği önemlidir. Tanımadığın exe'yi çalıştırmadan önce kontrol et. Release varlıklarının GitHub API'de verilen SHA-256 özetleri bulunuyorsa doğrulanır; her projede bu alan sağlanmayabilir.
+- **Kalıcı cache oluşturulmaz.** HTML sayfaları RAM'de işlenir.
+- Dosyalar doğrudan `--loc` klasörüne, belirtilmemişse Windows klasör seçme penceresinde seçilen konuma kaydedilir.
+- İndirme sırasında hedefte `.part` adlı geçici bir dosya oluşabilir; işlem bitince asıl adına dönüşür.
+- Var olan dosyanın üzerine yazmak için onay gerekir.
+- Sadece herkese açık GitHub depoları ve release dosyaları desteklenir. Oturum açma, private repo ve giriş gerektiren indirmeler yoktur.
+- GitHub'ın HTML sayfa düzeni değişirse dosya listeleme güncelleme isteyebilir.
+- MGET indirilen dosyanın **hesaplanan SHA-256 değerini gösterir**; bunu yayıncıya ait güvenilir bir imzayla doğrulamaz.
 
 [Hızlı Başlangıç](QUICKSTART-TR.md) · [Komutlar](COMMANDS-TR.md)

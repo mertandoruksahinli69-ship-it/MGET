@@ -53,8 +53,12 @@ The optional `.mget` JSON file controls installation mappings, an installer mode
 ```
 After downloading, the binary hash is checked. The experimental updater performs a self-replacement from a separate temporary helper executable. Never point the feed to an untrusted source: the index is **not digitally signed** in v0.1.
 
+## Uninstalling MGET
+
+Launch `MGET-Uninstall.exe` from the installed application directory, or use **Windows Settings → Installed Apps → MGET**. The uninstaller asks `Uninstall MGET? [Y/N]`; `Y` removes only MGET-installed binaries, the matching user PATH entry and the Windows uninstall entry. `N` cancels. **Downloaded packages, your data, and WinGet/Chocolatey installations are left untouched.**
+
 ## Single-file setup
-`MGET-Setup.exe` contains `mget.exe` as an embedded Windows resource. By default it installs to `%LOCALAPPDATA%\Programs\MGET`; an alternate folder can be chosen. Setup adds that directory once to **HKCU user PATH**, broadcasts an environment-change notification, and prompts users to open a **new** terminal. No admin rights are required for the default folder.
+`MGET-Setup.exe` is a **terminal/console installer** containing `mget.exe` as an embedded resource. Start it, enter `Y` at `Install MGET now? [Y/N]` (`N` cancels), then enter `Y` for `%LOCALAPPDATA%\Programs\MGET` or `N` to type a custom path. It adds the folder once to **HKCU user PATH**, broadcasts environment changes, and asks you to open a **new** terminal. Optional: `MGET-Setup.exe --dir="D:\Apps\MGET"`. No administrator rights are needed for the default directory.
 
 ## Known limitations
 - Not all Google Drive/MediaFire sharing pages expose direct download URLs; interactive downloads and login flows are not supported in v0.1.

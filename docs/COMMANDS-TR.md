@@ -67,7 +67,11 @@ Kanal dosyası: `stable.json`, `beta.json` veya `nightly.json`.
 ```
 SHA-256 manifestten okunur; bu prototipte imza tabanlı kaynak doğrulama **yoktur**. Henüz gerçek bir resmî kanal yayınlanmadı.
 
+## MGET'i kaldırma
+
+Kurulum dizinindeki `MGET-Uninstall.exe` dosyasını aç ve `Uninstall MGET? [Y/N]` sorusuna `Y` yaz. `N` işlemi iptal eder. Windows **Yüklü Uygulamalar** bölümünde MGET görünür; buradan da kaldırılabilir. Kaldırıcı `mget.exe`, `MGET-Uninstall.exe`, MGET'e ait kayıt ve kullanıcı PATH girişini temizler; **indirilen paketlere, kullanıcı verilerine veya WinGet/Chocolatey uygulamalarına dokunmaz.**
+
 ## Kurulum EXE
-`build\MGET-Setup.exe` tek kurulum dosyasıdır; içinde `mget.exe` bulunur. Varsayılan hedef `%LOCALAPPDATA%\Programs\MGET` (yönetici izni gerekmez). Kullanıcı yeni dizin de seçebilir. Setup, `HKCU\Environment\Path` değerine MGET klasörünü bir kez ekler ve Windows'a ortam değişikliğini bildirir. Yeni terminal açınca `mget` doğrudan çalışır.
+`build\MGET-Setup.exe` **terminalden çalışan**, içine `mget.exe` gömülmüş tek kurulum dosyasıdır. `Install MGET now? [Y/N]` sorusunda `Y` kurulumu başlatır; `N` hiçbir şey değiştirmeden çıkar. Ardından `Use default installation folder? [Y/N]` sorusunda `Y` `%LOCALAPPDATA%\Programs\MGET` dizinini seçer; `N` özel kurulum yolunu yazdırır. İstersen `MGET-Setup.exe --dir="D:\Apps\MGET"` yazabilirsin. Kurulum klasörü `HKCU\Environment\Path` değerine bir kez eklenir. Yeni terminal açınca `mget` çalışır.
 
 **Sınırlamalar:** Kayıt defteri değişiklikleri ve harici WinGet/Chocolatey kurulumları `mget remove` ile geri alınmaz. NPM, Node.js gerektirir. Google Drive/MediaFire paylaşım sayfalarından dosya bağlantısı ayrıştırma planlanmıştır; v0.1'de yalnızca doğrudan HTTPS dosya URL'leri işlenir.

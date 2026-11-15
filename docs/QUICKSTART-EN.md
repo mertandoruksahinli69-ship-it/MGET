@@ -6,8 +6,9 @@
 
 1. Open the `build` folder inside your local MGET project directory.
 2. Run `MGET-Setup.exe`.
-3. Choose **Yes** for the default folder (`%LOCALAPPDATA%\Programs\MGET`) or **No** to select a custom folder.
-4. Open a **new** PowerShell or CMD window.
+3. In the terminal, answer **Y** to `Install MGET now? [Y/N]` to continue, or **N** to cancel without making changes.
+4. Answer **Y** at `Use default installation folder? [Y/N]` to use `%LOCALAPPDATA%\Programs\MGET`, or **N** to type a custom path.
+5. Open a **new** PowerShell or CMD window.
 
 ```powershell
 mget --version
@@ -15,6 +16,10 @@ mget doctor
 ```
 
 Expected output: `MGET 0.1.0`. You can also run `build\mget.exe` directly before installing, but PATH is only configured by setup.
+
+## How do I uninstall MGET?
+
+Run `MGET-Uninstall.exe` from the installed folder, or use **Windows Settings → Installed Apps → MGET**. Answer `Y` to `Uninstall MGET? [Y/N]`. `N` leaves the installation untouched. It removes MGET's installed binaries and matching PATH entry while preserving downloaded packages and your data.
 
 ## 2. Search and install
 

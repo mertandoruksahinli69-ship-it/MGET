@@ -6,8 +6,9 @@
 
 1. MGET proje klasöründeki `build` klasörüne gir.
 2. `MGET-Setup.exe` dosyasını aç.
-3. **Yes**: önerilen klasöre kur (`%LOCALAPPDATA%\Programs\MGET`). **No**: farklı klasör seç.
-4. İşlem tamamlanınca **yeni** PowerShell veya CMD aç.
+3. Açılan terminalde `Install MGET now? [Y/N]` sorusuna `Y` yaz. `N` hiçbir şey yüklemez.
+4. `Use default installation folder? [Y/N]` sorusuna `Y` yazarak `%LOCALAPPDATA%\Programs\MGET` dizinini seç; `N` ile başka klasör yolu yaz.
+5. İşlem tamamlanınca **yeni** PowerShell veya CMD aç.
 
 ```powershell
 mget --version
@@ -15,6 +16,10 @@ mget doctor
 ```
 
 `mget --version` çıktısı `MGET 0.1.0` olmalı. Kurulum yapmadan test etmek için `build\mget.exe` doğrudan çalıştırılabilir.
+
+## MGET'i nasıl kaldırırım?
+
+Kurulum klasöründeki `MGET-Uninstall.exe` dosyasını aç veya Windows **Yüklü Uygulamalar → MGET** bölümünü kullan. Terminalde `Uninstall MGET? [Y/N]` sorusuna `Y` yaz. `N` hiçbir şeyi kaldırmaz. Kaldırıcı programın kendisini ve PATH kaydını siler; **indirilen paketlerine dokunmaz**.
 
 ## 2. Uygulama bul ve kur
 
