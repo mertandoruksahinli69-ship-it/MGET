@@ -1,0 +1,10 @@
+# MGET local build output
+/build/
+/release/
+*.obj
+*.o
+*.part
+*.bak
+*.old
+.vscode/
+.vs/

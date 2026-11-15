@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "demo.package",
+  "name": "MGET Example",
+  "version": "1.0.0",
+  "install": {
+    "mode": "copy",
+    "files": [
+      {
+        "from": "bin/**",
+        "to": "$INSTALL_DIR/"
+      },
+      {
+        "from": "assets/**",
+        "to": "$INSTALL_DIR/assets/"
+      }
+    ],
+    "registry": [],
+    "shortcuts": []
+  }
+}
